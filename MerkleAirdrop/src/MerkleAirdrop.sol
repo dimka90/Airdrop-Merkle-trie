@@ -8,16 +8,14 @@ import {Event} from "./libary/Event.sol";
 contract  Airdrop{
 
     using SafeERC20  for  IERC20;
-// errors
-
-
-//storage
+    // Storage
 
     mapping (address => bool)  s_account;
     bytes32 private  immutable i_merkleRoot;
 
     IERC20 private immutable i_airdroptoken;
    
+    // Constructor functions
 
     constructor(bytes32 merkleRoot, IERC20 airdrop_token) {
 
@@ -40,8 +38,7 @@ contract  Airdrop{
 
             revert Errors.LEAF_NOT_IN_AIRDROP();
         }
-
-
+        s_account[account] = true;
         emit Event.Claim(account, amount);
 
         i_airdroptoken.safeTransfer(account, amount);
@@ -49,7 +46,15 @@ contract  Airdrop{
 
 
     }
+
+    function getMerkRoot() external returns (bytes32){
+
+        return i_merkleRoot;
+
+    }
+    function getAirdroptoken() external returns(IERC20){
+
+        return i_airdroptoken;
+    }
     
-
-
 }
