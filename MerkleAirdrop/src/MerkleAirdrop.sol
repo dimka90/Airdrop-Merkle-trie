@@ -10,7 +10,7 @@ contract  Airdrop{
     using SafeERC20  for  IERC20;
     // Storage
 
-    mapping (address => bool)  s_account;
+    mapping (address => bool)  s_hasClaimed;
     bytes32 private  immutable i_merkleRoot;
 
     IERC20 private immutable i_airdroptoken;
@@ -27,7 +27,7 @@ contract  Airdrop{
 
     function claim(address account, uint256 amount, bytes32[] calldata merkelProof) external{
 
-        if(s_account[account]){
+        if(s_hasClaimed[account]){
             revert Errors.ALREADY_CLAIMED_AIRDROP();
         }
 
@@ -56,5 +56,8 @@ contract  Airdrop{
 
         return i_airdroptoken;
     }
+
+
+
     
 }
